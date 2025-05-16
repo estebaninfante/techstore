@@ -1,16 +1,18 @@
-import java.utils.arraylist;
+import java.util.ArrayList;
 
 class Inventario{
   private int cantidadProductos;
-  private ArrayList productos;
+  private double ValorInventario;
+  private ArrayList<Productos> productos;
 
-  public static void main (String[] args){
-
-
+  public Inventario(){
+    this.cantidadProductos = 0;
+    this.ValorInventario = 0.0;
+    this.productos = new ArrayList<Productos>();
   }
-
-  public añadirProductos(producto){
-    productos.add(producto);
-  }
-  
+ 
+  public static void AñadirProducto(){
+    
+    nuevoProducto = Productos();
+  } 
 }

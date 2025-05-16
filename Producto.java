@@ -1,11 +1,11 @@
-public class Productos {
+public class Producto {
 
   private String nombre;
   private Double precio;
   private int stock;
   private String descripcion;
 
-  public Productos(String nombre, int stock, Double precio, String descripcion) {
+  public Producto(String nombre, int stock, Double precio, String descripcion) {
     this.nombre = nombre;
     this.stock = stock;
     this.precio = precio;

@@ -1,13 +1,16 @@
 import javax.swing.JOptionPane;
 
-class GestorInventario{
+class GestorInventario {
 
-  private final Inventario inventario;
+  private final Inventario
+   inventario;
 
-  public GestorInventario();
+  public GestorInventario(){
     this.inventario = new Inventario();
-  public static void main (String[] args){
-    
 
+  public static void main (String[] args){
+   
+
+    }
   }
 }
