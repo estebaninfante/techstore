@@ -1,3 +1,4 @@
+
 public class Producto {
 
   private String nombre;
@@ -12,35 +13,39 @@ public class Producto {
     this.descripcion = descripcion;
   }
 
-  public String conseguirNombre() {
+  public String getNombre() {
     return nombre;
   }
 
-  public Double conseguirPrecio() {
+  public Double getPrecio() {
     return precio;
   }
 
-  public int conseguirStock() {
+  public int getStock() {
     return stock;
   }
 
-  public String conseguirDescripcion() {
+  public String getDescripcion() {
     return descripcion;
   }
 
-  public void establecerNombre(String nombre) {
+  public void setNombre(String nombre) {
     this.nombre = nombre;
   }
 
-  public void establecerPrecio(Double precio) {
+  public void setPrecio(Double precio) {
     this.precio = precio;
   }
 
-  public void establecerStock(int stock) {
+  public void setStock(int stock) {
     this.stock = stock;
   }
 
-  public void establecerDescripcion(String descripcion) {
+  public void setDescripcion(String descripcion) {
     this.descripcion = descripcion;
+  }
+
+  public String toString() {
+    return nombre + " - " + descripcion + " - " + precio + "$" + "| Stock:" + stock;
   }
 }
