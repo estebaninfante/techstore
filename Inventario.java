@@ -3,6 +3,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 class Inventario {
+
   private int cantidadProductos;
   private double ValorInventario;
   private List<Producto> productos;
@@ -13,19 +14,48 @@ class Inventario {
     this.productos = new ArrayList<Producto>();
   }
 
+  public String obtenerInput(String message) throws OperacionCancelada {
+    String input = JOptionPane.showInputDialog(null, message);
+    if (input == null) {
+      JOptionPane.showMessageDialog(null, "Operación cancelada por el usuario");
+      throw new OperacionCancelada("Operación cancelada por el usuario.");
+    }
+    return input;
+  }
+
   public void agregarProducto() {
-    String nombre = JOptionPane.showInputDialog(null, "Nombre del producto");
-    String descripcion = JOptionPane.showInputDialog(null, "Describeme el producto.");
-    double precio = Double.parseDouble(JOptionPane.showInputDialog(null, "Ingresa el precio del producto"));
-    int stock = Integer.parseInt(
-        JOptionPane.showInputDialog(null, "Ingresa la cantidad de producto que tienes."));
+    try {
+      String nombre = obtenerInput("Nombre del producto");
+      String descripcion = obtenerInput("Describeme el producto.");
+      int stock;
+      do {
+        stock = Integer.parseInt(obtenerInput("¿Cuánta cantidad de producto tienes?"));
+        if (stock <= 0) {
+          JOptionPane.showMessageDialog(null, "El stock no puede ser negativo, intenta de nuevo.");
+        }
+      } while (stock <= 0);
 
-    Producto nuevoProducto = new Producto(nombre, stock, precio, descripcion);
-    productos.add(nuevoProducto);
+      double precio;
+      do {
+        precio = Double.parseDouble(obtenerInput("¿Cuál es el precio de tu producto?"));
+        if (precio <= 0) {
+          JOptionPane.showMessageDialog(null, "El precio no puede ser negativo.");
+        }
+      } while (precio <= 0);
+      Producto nuevoProducto = new Producto(nombre, stock, precio, descripcion);
+      productos.add(nuevoProducto);
 
-    double precioTotal = precio * stock;
-    this.ValorInventario += precioTotal;
+      JOptionPane.showMessageDialog(null, "El producto " + nombre + "ha sido agregado con éxito." + "\nStock: " + stock
+          + "\nPrecio: " + precio + "\nDescripción: " + descripcion);
 
+      double precioTotal = precio * stock;
+      this.ValorInventario += precioTotal;
+
+    } catch (OperacionCancelada error) {
+      JOptionPane.showMessageDialog(null, error.getMessage());
+    } catch (NumberFormatException erorr) {
+      JOptionPane.showMessageDialog(null, "Ingresa por favor un valor válido.");
+    }
   }
 
   public List<Producto> getProductos() {

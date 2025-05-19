@@ -54,7 +54,8 @@ class GestorInventario {
                 break;
               // Mostrar el valor del inventario
               case 1:
-                JOptionPane.showMessageDialog(null, "El valor total de tu inventario es: " + inventario.getValorInventario());
+                JOptionPane.showMessageDialog(null,
+                    "El valor total de tu inventario es: " + inventario.getValorInventario());
                 break;
               // Añadir un producto
               case 2:
@@ -68,6 +69,7 @@ class GestorInventario {
           break;
         // Vender.
         case 1:
+
           JOptionPane.showMessageDialog(null, "Todavía no está programada esta función, vuelve luego.");
           break;
         case 2:
