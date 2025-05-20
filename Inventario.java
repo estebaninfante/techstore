@@ -4,12 +4,10 @@ import javax.swing.JOptionPane;
 
 class Inventario {
 
-  private int cantidadProductos;
   private double ValorInventario;
   private List<Producto> productos;
 
   public Inventario() {
-    this.cantidadProductos = 0;
     this.ValorInventario = 0.0;
     this.productos = new ArrayList<Producto>();
   }
@@ -58,11 +56,120 @@ class Inventario {
     }
   }
 
+  public void modificarProducto() {
+    StringBuilder sb = verProductos("Selecciona el producto a modificar");
+    if (productos.isEmpty())
+      return;
+
+    try {
+      // Seleccionar producto
+      String seleccionStr = JOptionPane.showInputDialog(null, sb.toString());
+      if (seleccionStr == null)
+        return;
+
+      int seleccionNum = Integer.parseInt(seleccionStr);
+      if (seleccionNum < 1 || seleccionNum > productos.size()) {
+        JOptionPane.showMessageDialog(null, "Producto inválido");
+        return;
+      }
+
+      Producto productoAModificar = productos.get(seleccionNum - 1);
+      double valorAntiguo = productoAModificar.getPrecio() * productoAModificar.getStock();
+
+      // Menú de modificación
+      while (true) {
+        String[] opciones = {
+            "Modificar Nombre",
+            "Modificar Descripción",
+            "Modificar Precio",
+            "Modificar Stock",
+            "Volver"
+        };
+
+        int opcion = JOptionPane.showOptionDialog(
+            null,
+            "¿Qué deseas modificar de " + productoAModificar.getNombre() + "?",
+            "Modificar Producto",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            opciones,
+            opciones[0]);
+
+        try {
+          switch (opcion) {
+            case 0:
+              productoAModificar.modificarNombre();
+              break;
+            case 1:
+              productoAModificar.modificarDescripcion();
+              break;
+            case 2:
+              productoAModificar.modificarPrecio();
+              break;
+            case 3:
+              productoAModificar.modificarStock();
+              break;
+            case 4:
+            case -1: // Si cierra la ventana
+              return;
+          }
+
+          // Actualizar valor del inventario
+          this.ValorInventario -= valorAntiguo;
+          this.ValorInventario += productoAModificar.getPrecio() * productoAModificar.getStock();
+
+          JOptionPane.showMessageDialog(null,
+              "Producto actualizado:\n" + productoAModificar.toString());
+
+        } catch (OperacionCancelada e) {
+          // Continuar con el menú
+        } catch (NumberFormatException e) {
+          JOptionPane.showMessageDialog(null,
+              "Error: Ingrese un número válido",
+              "Error",
+              JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException e) {
+          JOptionPane.showMessageDialog(null,
+              e.getMessage(),
+              "Error",
+              JOptionPane.ERROR_MESSAGE);
+        }
+      }
+    } catch (NumberFormatException e) {
+      JOptionPane.showMessageDialog(null, "Selección inválida");
+    }
+  }
+
   public List<Producto> getProductos() {
     return productos;
   }
 
   public double getValorInventario() {
     return this.ValorInventario;
+  }
+
+  public StringBuilder verProductos(String message) {
+    List<Producto> listaProductos = getProductos();
+
+    if (listaProductos.isEmpty()) {
+      JOptionPane.showMessageDialog(null, "No hay productos en el inventario para modificar.", "Inventario Vacío",
+          JOptionPane.INFORMATION_MESSAGE);
+      return new StringBuilder();
+    }
+
+    StringBuilder sb = new StringBuilder("Productos disponibles: \n");
+    sb.append("-------------------------------------\n");
+    for (int i = 0; i < listaProductos.size(); i++) {
+      Producto p = listaProductos.get(i);
+      sb.append((i + 1)) // Mostrar número 1-based para el usuario
+          .append(". Nombre: ").append(p.getNombre())
+          .append(" | Precio: $").append(String.format("%.2f", p.getPrecio()))
+          .append(" | Stock: ").append(p.getStock())
+          .append("\n");
+    }
+    sb.append("-------------------------------------\n");
+    sb.append(message);
+    return sb;
   }
 }

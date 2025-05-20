@@ -24,11 +24,13 @@ class GestorInventario {
           null,
           opciones,
           opciones[0]);
+      
       switch (opcion) {
         case 0:
           boolean menuGestionar = true;
           while (menuGestionar) {
-            String[] opcionesGestionar = { "Ver mis productos", "Valor del inventario", "Añadir Producto", "Volver" };
+            String[] opcionesGestionar = { "Ver mis productos", "Valor del inventario", "Añadir Producto",
+                "Modificar producto", "Volver" };
             int opcionGestionar = JOptionPane.showOptionDialog(
                 null,
                 "¿Qué quieres hacer?",
@@ -38,19 +40,16 @@ class GestorInventario {
                 null,
                 opcionesGestionar,
                 opcionesGestionar[0]);
+            
             switch (opcionGestionar) {
               // Ver productos
               case 0:
                 if (inventario.getProductos().isEmpty()) {
                   JOptionPane.showMessageDialog(null, "No tienes productos todavía, añade productos.");
                 } else {
-                  int contador = 1;
-                  for (Producto producto : inventario.getProductos()) {
-                    JOptionPane.showMessageDialog(null,
-                        contador + ". " + producto.toString());
-                    contador++;
+                    StringBuilder listaProductos = inventario.verProductos("");
+                    JOptionPane.showMessageDialog(null, listaProductos.toString());
                   }
-                }
                 break;
               // Mostrar el valor del inventario
               case 1:
@@ -61,7 +60,12 @@ class GestorInventario {
               case 2:
                 inventario.agregarProducto();
                 break;
+              // Modificar productos
               case 3:
+                inventario.modificarProducto();
+                break;
+              // Volver al menú anterior
+              case 4:
                 menuGestionar = false;
                 break;
             }
@@ -69,11 +73,15 @@ class GestorInventario {
           break;
         // Vender.
         case 1:
-
           JOptionPane.showMessageDialog(null, "Todavía no está programada esta función, vuelve luego.");
           break;
+        // Salir
         case 2:
           JOptionPane.showMessageDialog(null, "Hasta luego...");
+          System.exit(0);
+          break;
+        // Cerrar ventana
+        case -1:
           System.exit(0);
           break;
       }
