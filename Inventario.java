@@ -172,4 +172,35 @@ class Inventario {
     sb.append(message);
     return sb;
   }
+
+  public void venderProducto() throws NumberFormatException {
+
+    List<Producto> listaProductos = getProductos();
+
+    if (listaProductos.isEmpty()) {
+      JOptionPane.showMessageDialog(null, "No hay productos todavía");
+    }
+
+    StringBuilder sb = verProductos("¿Qué producto vas a vender?");
+
+    try {
+      int numeroProducto = Integer.parseInt(JOptionPane.showInputDialog(null, sb.toString()));
+      Producto productoAVender = productos.get(numeroProducto - 1);
+      int cantidad = Integer.parseInt(JOptionPane.showInputDialog(null,
+          "¿Cuánto quieres vender?\nTu stock actual es: " + productoAVender.getStock()));
+
+      if (cantidad <= 0) {
+        JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor a 0");
+      }
+      if (cantidad > productoAVender.getStock()) {
+        JOptionPane.showMessageDialog(null, "No tienes la cantidad suficiente");
+      }
+
+      productoAVender.setStock(productoAVender.getStock() - cantidad);
+
+    } catch (NumberFormatException error) {
+      JOptionPane.showInputDialog(null, "Por favor, ingresa un número/valor válido.");
+    }
+
+  }
 }

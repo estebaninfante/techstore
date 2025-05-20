@@ -24,7 +24,7 @@ class GestorInventario {
           null,
           opciones,
           opciones[0]);
-      
+
       switch (opcion) {
         case 0:
           boolean menuGestionar = true;
@@ -40,16 +40,16 @@ class GestorInventario {
                 null,
                 opcionesGestionar,
                 opcionesGestionar[0]);
-            
+
             switch (opcionGestionar) {
               // Ver productos
               case 0:
                 if (inventario.getProductos().isEmpty()) {
                   JOptionPane.showMessageDialog(null, "No tienes productos todavía, añade productos.");
                 } else {
-                    StringBuilder listaProductos = inventario.verProductos("");
-                    JOptionPane.showMessageDialog(null, listaProductos.toString());
-                  }
+                  StringBuilder listaProductos = inventario.verProductos("");
+                  JOptionPane.showMessageDialog(null, listaProductos.toString());
+                }
                 break;
               // Mostrar el valor del inventario
               case 1:
@@ -73,7 +73,7 @@ class GestorInventario {
           break;
         // Vender.
         case 1:
-          JOptionPane.showMessageDialog(null, "Todavía no está programada esta función, vuelve luego.");
+          inventario.venderProducto();
           break;
         // Salir
         case 2:
